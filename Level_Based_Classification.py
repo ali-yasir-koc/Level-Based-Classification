@@ -83,7 +83,7 @@ data_analysis(df)
 
 def create_persona(dataframe):
     bins = [0, 18, 23, 35, 45, dataframe["AGE"].max()]
-    labels = ["0_18", "19_23", "24_30", "31_40", "41_" + str(dataframe["AGE"].max())]
+    labels = ["0_18", "19_23", "24_35", "36_45", "46_" + str(dataframe["AGE"].max())]
 
     dataframe["AGE_CAT"] = pd.cut(dataframe["AGE"], bins, labels=labels)
     print("Age Category Summary:\n", dataframe.groupby("AGE_CAT").agg({"AGE": ["min", "max", "count"]}))
@@ -135,19 +135,19 @@ def new_user(persona_dataframe):
 
     age = int(x_list[3])
     cat = ""
-    if age >= 41:
-        cat = "41_66"
-    elif age >= 31:
-        cat = "31_40"
+    if age >= 46:
+        cat = "46_66"
+    elif age >= 36:
+        cat = "36_40"
     elif age >= 24:
-        cat = "24_30"
+        cat = "24_35"
     elif age >= 19:
         cat = "19_23"
     else:
         cat = "0_18"
 
     user = new + cat
-    return persona_dataframe[persona_dataframe["CUSTOMER_LEVEL_BASED"] == user]
+    return agg_persona[agg_persona["CUSTOMER_LEVEL_BASED"] == user]
 
 
 new_user(agg_persona)
